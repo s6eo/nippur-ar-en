@@ -70,7 +70,7 @@ const Header = () => {
               className="cursor-pointer"
               onClick={() => scrollToSection('#hero')}
             >
-              <img src="../public/logo.png" alt="logo" className='w-fit h-12' />
+              <img src="/logo.png" alt="logo" className='w-fit h-12' />
             </motion.div>
 
             {/* Desktop Navigation */}

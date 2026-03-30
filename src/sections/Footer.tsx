@@ -64,7 +64,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className={`flex items-center gap-3 mb-8 ${isRTL ? '' : 'flex-row-reverse'}`}>
-              <img src="../public/logo.png" alt="logo" className='w-full h-full bg-white' />
+              <img src="/logo.png" alt="logo" className='w-full h-full bg-white' />
             </div>
             <p className={`text-gray-300 text-sm leading-relaxed mb-8 ${isRTL ? '' : 'text-right'}`}>
               {t('footer.description')}
