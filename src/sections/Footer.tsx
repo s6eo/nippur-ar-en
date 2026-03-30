@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Pill, Send, Facebook, Twitter, Instagram, Linkedin, ArrowUp } from 'lucide-react';
+import { Send, Facebook, Twitter, Instagram, Linkedin, ArrowUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const Footer = () => {

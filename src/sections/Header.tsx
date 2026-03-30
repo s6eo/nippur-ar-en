@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone, Pill, Globe } from 'lucide-react';
+import { Menu, X, Phone, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const Header = () => {
