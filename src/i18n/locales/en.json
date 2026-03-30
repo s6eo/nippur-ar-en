@@ -1,0 +1,259 @@
+{
+  "header": {
+    "brand": "Nippur Pharma",
+    "brandSub": "Pharmaceutical Factory",
+    "nav": {
+      "home": "Home",
+      "about": "About Us",
+      "products": "Products",
+      "vision": "Vision",
+      "contact": "Contact Us"
+    },
+    "cta": "Book Appointment",
+    "phone": "+964774 040 8020"
+  },
+  "hero": {
+    "badge": "Internationally Certified Pharma Factory",
+    "title": "We Improve Your",
+    "titleHighlight": "Health!",
+    "description": "Nippur Pharma Factory - High-quality products according to international standards. We manufacture all forms of cephalosporin dosages and a wide range of eye drops and ampoules.",
+    "btnPrimary": "Learn More",
+    "btnSecondary": "Contact Us",
+    "stats": {
+      "years": "Years Experience",
+      "products": "Pharmaceutical Products",
+      "clients": "Happy Clients"
+    },
+    "floating": {
+      "gmp": "GMP Certified",
+      "gmpSub": "World Class Quality",
+      "european": "European Equipment",
+      "europeanSub": "Advanced Technology"
+    },
+    "scrollDown": "Discover More"
+  },
+  "products": {
+    "badge": "Our Products",
+    "title": "Our Pharmaceutical",
+    "titleHighlight": "Products",
+    "description": "We offer a wide range of high-quality pharmaceutical products, manufactured according to the highest international quality standards to ensure the safety and efficacy of each product.",
+    "items": {
+      "oral": {
+        "title": "Oral Cephalosporin",
+        "description": "A complete range of high-quality oral antibiotics for treating various bacterial infections.",
+        "features": [
+          "Broad-spectrum antibiotic",
+          "Effective against Gram-positive bacteria",
+          "Easy to swallow and absorb",
+          "Safe for adults and children"
+        ]
+      },
+      "injectable": {
+        "title": "Injectable Cephalosporin",
+        "description": "Effective and safe injectable solutions for medical use in cases requiring immediate and rapid doses.",
+        "features": [
+          "Fast and direct effect",
+          "High purity quality",
+          "Fully sterilized",
+          "Compliant with GMP standards"
+        ]
+      },
+      "ampoules": {
+        "title": "Ampoules",
+        "description": "Sterile ampoules with world-class quality standards for safely and effectively storing liquid medications.",
+        "features": [
+          "High-quality medical glass",
+          "Tight and secure closure",
+          "Protection from contamination",
+          "Easy to use"
+        ]
+      },
+      "eyedrops": {
+        "title": "Eye Drops",
+        "description": "Effective treatments for various eye diseases, manufactured with high precision to ensure safety and efficacy.",
+        "features": [
+          "Balanced and safe formula",
+          "Free from harmful preservatives",
+          "Effective against bacterial infections",
+          "Soothing for the eyes"
+        ]
+      }
+    },
+    "learnMore": "Learn More",
+    "ctaText": "Want to know more about our products?",
+    "ctaButton": "Contact Us"
+  },
+  "about": {
+    "badge": "About Us",
+    "title": "Nippur Pharma",
+    "titleHighlight": "World Class Quality, Lasting Trust",
+    "description1": "Nippur is a limited liability company under the laws of Iraq. We manufacture all forms of cephalosporin dosages and a wide range of eye drops and ampoules, using known sources of active ingredients and European equipment in a GMP-compliant facility.",
+    "description2": "We strive to provide high-quality pharmaceutical products at affordable prices for everyone, to be a trusted partner in the journey of improving health for patients in Iraq and the region.",
+    "features": {
+      "materials": {
+        "title": "Certified Raw Materials",
+        "desc": "Known and reliable sources"
+      },
+      "equipment": {
+        "title": "European Equipment",
+        "desc": "Advanced modern technology"
+      },
+      "gmp": {
+        "title": "GMP Facility",
+        "desc": "World-class quality standards"
+      },
+      "team": {
+        "title": "Specialized Team",
+        "desc": "High expertise and competence"
+      }
+    },
+    "certified": {
+      "title": "Internationally Certified",
+      "desc": "We follow global quality standards in all production stages"
+    },
+    "stats": {
+      "founded": "Year Founded",
+      "products": "Pharmaceutical Products",
+      "employees": "Qualified Employees",
+      "quality": "Guaranteed Quality"
+    }
+  },
+  "vision": {
+    "badge": "Our Mission",
+    "title": "Our Vision &",
+    "titleHighlight": "Goals",
+    "description": "We strive to be pioneers in the Iraqi pharmaceutical industry, committed to the highest standards of quality and safety in every product we manufacture.",
+    "vision": {
+      "title": "Our Vision",
+      "content": "To improve the quality of Iraqi pharmaceutical products by manufacturing high-quality products according to Iraqi and international standards, and introducing a new production line for the Iraqi industry."
+    },
+    "goal": {
+      "title": "Our Goal",
+      "content": "To establish a high-quality entity with unmatched expertise and qualified staff to provide the best products at affordable prices for patients."
+    },
+    "values": {
+      "title": "Our Core Values",
+      "commitment": {
+        "title": "Commitment",
+        "desc": "Committed to the highest quality standards in every product"
+      },
+      "innovation": {
+        "title": "Innovation",
+        "desc": "Adopting the latest technologies in pharmaceutical manufacturing"
+      },
+      "improvement": {
+        "title": "Continuous Improvement",
+        "desc": "Constantly striving to improve our products and services"
+      },
+      "service": {
+        "title": "Community Service",
+        "desc": "We aim to improve the health of the Iraqi community"
+      }
+    },
+    "quote": "Nippur is a limited liability company under the laws of Iraq, striving to provide high-quality pharmaceutical products that meet patients' needs and contribute to building a healthier society.",
+    "quoteAuthor": "Founder & CEO",
+    "quoteCompany": "Nippur Pharma"
+  },
+  "quality": {
+    "badge": "Quality & Responsibility",
+    "title": "Our Responsibility",
+    "titleHighlight": "Towards a Healthier Society",
+    "description": "As a new Iraqi pharmaceutical company, we are responsible for playing our part in building a resilient and healthier community by ensuring access to healthcare for all Iraqis. We believe that quality is not just a goal, but an ethical commitment to our patients and community.",
+    "responsibilities": {
+      "title": "Our Commitments to Society",
+      "items": [
+        "Ensuring access to healthcare for all Iraqis",
+        "Providing pharmaceutical products at affordable prices",
+        "Contributing to building a healthier and more resilient community",
+        "Adhering to the highest professional ethics standards"
+      ]
+    },
+    "points": {
+      "assurance": {
+        "title": "Quality Assurance",
+        "desc": "We apply strict standards at all production stages to ensure the quality of the final product."
+      },
+      "control": {
+        "title": "Strict Control",
+        "desc": "Thorough examination of all raw materials and products before market release."
+      },
+      "standards": {
+        "title": "International Standards",
+        "desc": "Compliance with GMP standards and international pharmaceutical industry standards."
+      },
+      "documentation": {
+        "title": "Complete Documentation",
+        "desc": "Comprehensive documentation of all production and testing processes for tracking and review."
+      }
+    },
+    "stats": {
+      "quality": "Quality Rate",
+      "tests": "Daily Tests",
+      "complaints": "Quality Complaints"
+    },
+    "badgeGmp": "GMP Certified",
+    "badgeGmpSub": "Globally Certified"
+  },
+  "contact": {
+    "badge": "Contact Us",
+    "title": "Get In",
+    "titleHighlight": "Touch",
+    "description": "We are always happy to discuss new ideas and opportunities and can easily be contacted using the inquiry form below. We will respond as soon as possible.",
+    "form": {
+      "title": "Send Us a Message",
+      "name": "Full Name",
+      "namePlaceholder": "Enter your name",
+      "phone": "Phone Number",
+      "phonePlaceholder": "Enter your phone number",
+      "email": "Email Address",
+      "emailPlaceholder": "Enter your email address",
+      "message": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "submit": "Send Message",
+      "success": {
+        "title": "Your message has been sent successfully!",
+        "desc": "We will get back to you as soon as possible."
+      }
+    },
+    "info": {
+      "address": {
+        "title": "Address",
+        "content": "Industrial Area, Baghdad, Iraq"
+      },
+      "phone": {
+        "title": "Phone",
+        "content": "+964 77 40 40 80 20"
+      },
+      "email": {
+        "title": "Email",
+        "content": "info@nippurpharma.com"
+      },
+      "hours": {
+        "title": "Working Hours",
+        "content": "Sat - Thu: 8:00 AM - 5:00 PM"
+      }
+    },
+    "map": "Industrial Area, Baghdad",
+    "viewMap": "View on Map"
+  },
+  "footer": {
+    "description": "Nippur is a limited liability company under the laws of Iraq, specializing in manufacturing high-quality pharmaceutical products according to international standards.",
+    "services": "Our Services",
+    "quickLinks": "Quick Links",
+    "newsletter": {
+      "title": "Newsletter",
+      "desc": "Stay in touch with us to get the latest news and special offers.",
+      "placeholder": "Enter your email address",
+      "button": "Subscribe Now",
+      "success": "Subscribed successfully!"
+    },
+    "copyright": "© 2026 Nippur Pharma. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use",
+    "scrollTop": "Back to Top"
+  },
+  "language": {
+    "ar": "العربية",
+    "en": "English"
+  }
+}
