@@ -30,7 +30,7 @@ function App() {
       <FloatingElements />
       
       <Header />
-      <main className="relative z-10">
+      <main className="relative z-10 ">
         <Hero />
         <Products />
         <About />

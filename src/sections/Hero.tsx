@@ -1,12 +1,15 @@
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, Play, ChevronDown } from 'lucide-react';
+import { motion, useScroll, useTransform, type Variants } from 'framer-motion';
+import { ArrowLeft, Play, ChevronDown, Award, CheckCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import AnimatedCounter from '../components/AnimatedCounter';
 import MagneticButton from '../components/MagneticButton';
+import GlassCard from '../components/GlassCard';
+import { useScrollToSection } from '../hooks/useScrollToSection';
 
 const Hero = () => {
   const { t, i18n } = useTranslation();
+  const scrollToSection = useScrollToSection();
   const containerRef = useRef<HTMLDivElement>(null);
   const isRTL = i18n.language === 'ar';
 
@@ -15,19 +18,11 @@ const Hero = () => {
     offset: ['start start', 'end start']
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.9]);
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '40%']);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
 
   // Stagger animation variants
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -38,30 +33,15 @@ const Hero = () => {
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        type: 'spring' as const,
-        stiffness: 100,
-        damping: 12,
-      },
-    },
-  };
-
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 0.8, rotate: -5 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      rotate: 0,
-      transition: {
-        type: 'spring' as const,
+        type: 'spring',
         stiffness: 80,
         damping: 15,
-        duration: 1,
       },
     },
   };
@@ -70,70 +50,56 @@ const Hero = () => {
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-pharma-gray-light via-white to-pharma-blue/5"
+      className=" relative min-h-screen flex items-center overflow-hidden bg-pharma-gray-50 animate- fade-in"
     >
-      {/* Animated Background Shapes */}
+      {/* Animated Premium Background */}
+      <div className="absolute inset-0 bg-hero-glow opacity-60 mix-blend-multiply" />
       <motion.div 
-        className="absolute top-20 left-10 w-64 h-64 bg-pharma-blue/5 rounded-full blur-3xl"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
+        className="absolute top-20 left-10 w-[500px] h-[500px] bg-pharma-blue/10 rounded-full blur-[100px]"
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div 
-        className="absolute bottom-20 right-10 w-96 h-96 bg-pharma-blue-light/10 rounded-full blur-3xl"
-        animate={{
-          scale: [1.2, 1, 1.2],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
+        className="absolute bottom-20 right-10 w-[600px] h-[600px] bg-pharma-cyan/10 rounded-full blur-[120px]"
+        animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       <motion.div 
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-20"
-        style={{ y, opacity, scale }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-32 pb-24 relative z-10"
+        style={{ y, opacity }}
       >
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Text Content */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className={`order-2 lg:order-1 ${isRTL ? 'text-right' : 'text-left'}`}
+            className={`lg:col-span-6 xl:col-span-5 order-2 lg:order-1 text-start`}
           >
             <motion.div
               variants={itemVariants}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-pharma-blue/10 rounded-full mb-8"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-md rounded-full mb-8 border border-white shadow-glass-sm"
             >
-              <motion.span 
-                className="w-2 h-2 bg-pharma-blue rounded-full"
-                animate={{ scale: [1, 1.5, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-              <span className="text-sm font-medium text-pharma-blue">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pharma-blue opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-pharma-blue"></span>
+              </span>
+              <span className="text-sm font-semibold text-pharma-navy uppercase tracking-wider">
                 {t('hero.badge')}
               </span>
             </motion.div>
 
             <motion.h1
               variants={itemVariants}
-              className="heading-1 text-pharma-blue-dark mb-8"
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-pharma-navy leading-[1.2] mb-6"
             >
               {t('hero.title')}
               <motion.span 
-                className="block text-gradient"
-                initial={{ opacity: 0, x: isRTL ? 50 : -50 }}
+                className="block text-transparent bg-clip-text bg-gradient-to-r from-pharma-blue via-pharma-cyan to-pharma-blue mt-2"
+                initial={{ opacity: 0, x: isRTL ? 30 : -30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5, duration: 0.8, type: 'spring' }}
+                transition={{ delay: 0.8, duration: 0.8, type: 'spring' }}
               >
                 {t('hero.titleHighlight')}
               </motion.span>
@@ -141,7 +107,7 @@ const Hero = () => {
 
             <motion.p
               variants={itemVariants}
-              className="body-text mb-10 max-w-lg"
+              className="text-lg text-pharma-gray-800 mb-10 max-w-lg leading-relaxed"
             >
               {t('hero.description')}
             </motion.p>
@@ -151,28 +117,25 @@ const Hero = () => {
               className="flex flex-wrap gap-4"
             >
               <MagneticButton
-                onClick={() => scrollToSection('#about')}
+                onClick={() => scrollToSection('#contact')}
                 className="btn-primary flex items-center gap-2 group"
+                strength={0.2}
               >
                 {t('hero.btnPrimary')}
                 <motion.span
-                  animate={{ x: isRTL ? [-5, 5, -5] : [5, -5, 5] }}
+                  className="transition-transform group-hover:translate-x-1"
+                  animate={{ x: isRTL ? [-3, 0, -3] : [0, 3, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  <ArrowLeft className={`w-4 h-4 ${isRTL ? '' : 'rotate-180'}`} />
+                  <ArrowLeft className={`w-5 h-5 ${isRTL ? '' : 'rotate-180'}`} />
                 </motion.span>
               </MagneticButton>
               <MagneticButton
-                onClick={() => scrollToSection('#contact')}
+                onClick={() => scrollToSection('#about')}
                 className="btn-secondary flex items-center gap-2"
-                strength={0.2}
+                strength={0.15}
               >
-                <motion.span
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                >
-                  <Play className="w-4 h-4" />
-                </motion.span>
+                <Play className="w-4 h-4 fill-current" />
                 {t('hero.btnSecondary')}
               </MagneticButton>
             </motion.div>
@@ -180,166 +143,101 @@ const Hero = () => {
             {/* Stats with Animated Counters */}
             <motion.div
               variants={itemVariants}
-              className={`flex gap-8 mt-16 ${isRTL ? '' : 'flex-row-reverse justify-end'}`}
+              className={`flex gap-6 sm:gap-10 mt-16 ${isRTL ? '' : 'flex-row-reverse justify-end'}`}
             >
               {[
                 { value: 10, suffix: '+', label: t('hero.stats.years') },
                 { value: 50, suffix: '+', label: t('hero.stats.products') },
                 { value: 1000, suffix: '+', label: t('hero.stats.clients') },
               ].map((stat, index) => (
-                <motion.div 
-                  key={index} 
-                  className="text-center"
-                  whileHover={{ scale: 1.1, y: -5 }}
-                  transition={{ type: 'spring', stiffness: 300 }}
-                >
-                  <div className="stat-number">
+                <div key={index} className="flex flex-col">
+                  <div className="text-3xl sm:text-4xl font-extrabold text-pharma-blue tracking-tight mb-1">
                     <AnimatedCounter end={stat.value} suffix={stat.suffix} />
                   </div>
-                  <div className="text-sm text-pharma-gray-dark">{stat.label}</div>
-                </motion.div>
+                  <div className="text-xs sm:text-sm font-medium text-pharma-gray-800 uppercase tracking-wider">{stat.label}</div>
+                </div>
               ))}
             </motion.div>
           </motion.div>
 
-          {/* Image */}
+          {/* Image Side with GlassCards */}
           <motion.div
-            variants={imageVariants}
-            initial="hidden"
-            animate="visible"
-            className="relative order-1 lg:order-2"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, type: 'spring', stiffness: 50, delay: 0.2 }}
+            className="lg:col-span-6 xl:col-span-7 relative order-1 lg:order-2"
           >
-            <div className="relative">
-              {/* Main Image with hover effect */}
-              <motion.div 
-                className="relative rounded-3xl overflow-hidden shadow-2xl image-overlay"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.5 }}
-              >
-                <motion.img
-                  src="/hero-factory.jpg"
-                  alt="Nippur Pharma Factory"
-                  className="w-full h-[400px] lg:h-[500px] object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.7 }}
-                />
-                {/* Animated Overlay Gradient */}
-                <motion.div 
-                  className="absolute inset-0 bg-gradient-to-t from-pharma-blue/30 to-transparent"
-                  animate={{
-                    opacity: [0.3, 0.5, 0.3],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: 'easeInOut',
-                  }}
-                />
-              </motion.div>
-
-              {/* Floating Card - GMP */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8, type: 'spring' }}
-                className={`absolute -bottom-6 ${isRTL ? '-left-6' : '-right-6'} bg-white rounded-2xl p-4 shadow-xl`}
-                whileHover={{ scale: 1.05, rotate: isRTL ? -3 : 3 }}
-              >
-                <motion.div 
-                  className="flex items-center gap-3"
-                  animate={{ y: [0, -5, 0] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                >
-                  <motion.div 
-                    className="w-12 h-12 rounded-full bg-pharma-blue/10 flex items-center justify-center"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <svg
-                      className="w-6 h-6 text-pharma-blue"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </motion.div>
-                  <div>
-                    <div className="font-bold text-pharma-blue-dark">{t('hero.floating.gmp')}</div>
-                    <div className="text-sm text-pharma-gray-dark">{t('hero.floating.gmpSub')}</div>
-                  </div>
-                </motion.div>
-              </motion.div>
-
-              {/* Floating Card - European */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1, type: 'spring' }}
-                className={`absolute -top-4 ${isRTL ? '-right-4' : '-left-4'} bg-white rounded-2xl p-4 shadow-xl`}
-                whileHover={{ scale: 1.05, rotate: isRTL ? 3 : -3 }}
-              >
-                <motion.div 
-                  className="flex items-center gap-3"
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
-                >
-                  <motion.div 
-                    className="w-12 h-12 rounded-full bg-pharma-blue-light/20 flex items-center justify-center"
-                    whileHover={{ rotate: -360 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <svg
-                      className="w-6 h-6 text-pharma-blue"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-                      />
-                    </svg>
-                  </motion.div>
-                  <div>
-                    <div className="font-bold text-pharma-blue-dark">{t('hero.floating.european')}</div>
-                    <div className="text-sm text-pharma-gray-dark">{t('hero.floating.europeanSub')}</div>
-                  </div>
-                </motion.div>
-              </motion.div>
+            <div className="relative rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(10,37,64,0.15)] aspect-[4/3] lg:aspect-auto lg:h-[600px]">
+              <motion.img
+                src="/hero-factory.jpg"
+                alt="Nippur Pharma Factory"
+                className="w-full h-full object-cover"
+                initial={{ scale: 1.1 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 1.5, ease: 'easeOut' }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-pharma-navy/40 via-transparent to-transparent" />
             </div>
+
+            {/* Floating GlassCard - GMP */}
+            <GlassCard
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1, type: 'spring' }}
+              className={`absolute -bottom-4 -end-3 sm:end-3 p-4 sm:p-5 max-w-[220px] animate-float`}
+            >
+              <div className={`flex items-center gap-4 ${isRTL ? '' : 'flex-row-reverse'}`}>
+                <div className="w-10 h-10 rounded-full bg-pharma-emerald/10 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle className="w-5 h-5 text-pharma-emerald" />
+                </div>
+                <div className={isRTL ? '' : 'text-right'}>
+                  <div className="font-bold text-pharma-navy text-sm sm:text-base leading-tight mb-1">{t('hero.floating.gmp')}</div>
+                  <div className="text-xs text-pharma-gray-800">{t('hero.floating.gmpSub')}</div>
+                </div>
+              </div>
+            </GlassCard>
+
+            {/* Floating GlassCard - European */}
+            <GlassCard
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 1.2, type: 'spring' }}
+              className={`absolute top-10 -start-3 sm:-start-6 p-4 sm:p-5 max-w-[240px] animate-float`}
+            >
+              <div className={`flex items-center gap-4 ${isRTL ? '' : 'flex-row-reverse'}`}>
+                <div className="w-12 h-12 rounded-xl bg-pharma-blue/10 flex items-center justify-center flex-shrink-0">
+                  <Award className="w-6 h-6 text-pharma-blue" />
+                </div>
+                <div className={isRTL ? '' : 'text-right'}>
+                  <div className="font-bold text-pharma-navy text-sm sm:text-base leading-tight mb-1">{t('hero.floating.european')}</div>
+                  <div className="text-xs text-pharma-gray-800">{t('hero.floating.europeanSub')}</div>
+                </div>
+              </div>
+            </GlassCard>
           </motion.div>
         </div>
       </motion.div>
 
       {/* Scroll Down Indicator */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 1.5 }}
-        className="absolute bottom-12 left-1/2 transform -translate-x-1/2"
+        transition={{ duration: 0.5, delay: 2 }}
+        className="absolute bottom-6 sm:bottom-10 left-1/2 transform -translate-x-1/2 z-20"
       >
-        <motion.button
+        <button
           onClick={() => scrollToSection('#products')}
-          className="flex flex-col items-center gap-2 text-pharma-blue hover:text-pharma-blue-dark transition-colors"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          className="flex flex-col items-center gap-2 text-pharma-navy/50 hover:text-pharma-blue transition-colors group"
+          aria-label="Scroll down"
         >
-          <span className="text-sm font-medium">{t('hero.scrollDown')}</span>
+          <span className="text-xs font-semibold tracking-widest uppercase">{t('hero.scrollDown')}</span>
           <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <ChevronDown className="w-6 h-6" />
+            <ChevronDown className="w-5 h-5 opacity-70 group-hover:opacity-100" />
           </motion.div>
-        </motion.button>
+        </button>
       </motion.div>
     </section>
   );

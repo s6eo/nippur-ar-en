@@ -1,82 +1,51 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, Facebook, Twitter, Instagram, Linkedin, ArrowUp } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Facebook, Twitter, Linkedin, Instagram, ArrowUp, Mail, MapPin, Phone } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useScrollToSection } from '../hooks/useScrollToSection';
 
 const Footer = () => {
-  const { t, i18n } = useTranslation();
-  const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const isRTL = i18n.language === 'ar';
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setIsSubscribed(true);
-      setTimeout(() => {
-        setIsSubscribed(false);
-        setEmail('');
-      }, 3000);
-    }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const services = [
-    { name: t('products.items.oral.title'), href: '#products' },
-    { name: t('products.items.injectable.title'), href: '#products' },
-    { name: t('products.items.ampoules.title'), href: '#products' },
-    { name: t('products.items.eyedrops.title'), href: '#products' },
-  ];
+  const { t } = useTranslation();
+  const scrollToSection = useScrollToSection();
 
   const quickLinks = [
+    { name: t('header.nav.home'), href: '#hero' },
     { name: t('header.nav.about'), href: '#about' },
-    { name: t('vision.vision.title'), href: '#vision' },
     { name: t('header.nav.products'), href: '#products' },
+    { name: t('header.nav.vision'), href: '#vision' },
     { name: t('header.nav.contact'), href: '#contact' },
   ];
 
   const socialLinks = [
     { icon: <Facebook className="w-5 h-5" />, href: '#', label: 'Facebook' },
     { icon: <Twitter className="w-5 h-5" />, href: '#', label: 'Twitter' },
-    { icon: <Instagram className="w-5 h-5" />, href: '#', label: 'Instagram' },
     { icon: <Linkedin className="w-5 h-5" />, href: '#', label: 'LinkedIn' },
+    { icon: <Instagram className="w-5 h-5" />, href: '#', label: 'Instagram' },
   ];
 
   return (
-    <footer className="bg-pharma-blue-dark text-white relative overflow-hidden">
-      {/* Background Decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-pharma-blue/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-72 h-72 bg-pharma-blue/10 rounded-full blur-3xl" />
+    <footer className="bg-pharma-navy pt-20 pb-10 relative overflow-hidden text-white">
+      {/* Premium Background Elements */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-pharma-blue/20 to-transparent opacity-30 pointer-events-none" />
+      <div className="absolute -top-40 -left-40 w-80 h-80 bg-pharma-cyan/20 rounded-full blur-[100px] pointer-events-none" />
 
-      {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Company Info */}
-          <div className="lg:col-span-1">
-            <div className={`flex items-center gap-3 mb-8 ${isRTL ? '' : 'flex-row-reverse'}`}>
-              <img src="/logo.png" alt="logo" className='w-full h-full bg-white' />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
+          
+          {/* Brand Column */}
+          <div className={`lg:col-span-4 flex flex-col items-start text-start`}>
+            <div className="bg-white/95 p-4 rounded-2xl mb-6 shadow-glass-sm inline-block">
+              <img src="/logo.png" alt="Nippur Pharma" className="h-12 w-auto object-contain" />
             </div>
-            <p className={`text-gray-300 text-sm leading-relaxed mb-8 ${isRTL ? '' : 'text-right'}`}>
+            <p className="text-pharma-gray-200/80 leading-relaxed mb-8 max-w-sm">
               {t('footer.description')}
             </p>
-            {/* Social Links */}
-            <div className={`flex gap-3 ${isRTL ? '' : 'flex-row-reverse'}`}>
+            <div className={`flex items-center gap-3`}>
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center hover:bg-pharma-blue transition-colors"
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-pharma-blue hover:text-white transition-all duration-300 hover:-translate-y-1"
                 >
                   {social.icon}
                 </a>
@@ -84,106 +53,83 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Services */}
-          <div>
-            <h4 className="text-lg font-semibold mb-8">{t('footer.services')}</h4>
-            <ul className={`space-y-4 ${isRTL ? '' : 'text-right'}`}>
-              {services.map((service) => (
-                <li key={service.name}>
-                  <button
-                    onClick={() => scrollToSection(service.href)}
-                    className="text-gray-300 hover:text-white transition-colors text-sm"
-                  >
-                    {service.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-8">{t('footer.quickLinks')}</h4>
-            <ul className={`space-y-4 ${isRTL ? '' : 'text-right'}`}>
+          <div className={`lg:col-span-2 lg:col-start-6 text-start`}>
+            <h4 className="text-lg font-bold mb-6 text-white">{t('footer.quickLinks')}</h4>
+            <ul className="space-y-4">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <button
                     onClick={() => scrollToSection(link.href)}
-                    className="text-gray-300 hover:text-white transition-colors text-sm"
+                    className="text-pharma-gray-200/80 hover:text-pharma-cyan transition-colors text-sm font-medium relative group"
                   >
                     {link.name}
+                    <span className={`absolute -bottom-1 h-0.5 bg-pharma-cyan transition-all duration-300 w-0 group-hover:w-full start-0`} />
                   </button>
                 </li>
               ))}
             </ul>
           </div>
 
+          {/* Contact Info */}
+          <div className={`lg:col-span-3 text-start`}>
+            <h4 className="text-lg font-bold mb-6 text-white">{t('header.nav.contact')}</h4>
+            <ul className="space-y-4">
+              <li className={`flex items-start gap-3`}>
+                <MapPin className="w-5 h-5 text-pharma-cyan flex-shrink-0 mt-1" />
+                <span className="text-pharma-gray-200/80 text-sm leading-relaxed">{t('contact.info.address.content')}</span>
+              </li>
+              <li className={`flex items-center gap-3`}>
+                <Phone className="w-5 h-5 text-pharma-cyan flex-shrink-0" />
+                <span className="text-pharma-gray-200/80 text-sm" dir="ltr">{t('header.phone')}</span>
+              </li>
+              <li className={`flex items-center gap-3`}>
+                <Mail className="w-5 h-5 text-pharma-cyan flex-shrink-0" />
+                <span className="text-pharma-gray-200/80 text-sm">info@nippurpharma.com</span>
+              </li>
+            </ul>
+          </div>
+
           {/* Newsletter */}
-          <div>
-            <h4 className="text-lg font-semibold mb-8">{t('footer.newsletter.title')}</h4>
-            <p className={`text-gray-300 text-sm mb-6 ${isRTL ? '' : 'text-right'}`}>
+          <div className={`lg:col-span-3 text-start`}>
+            <h4 className="text-lg font-bold mb-6 text-white">{t('footer.newsletter.title')}</h4>
+            <p className="text-pharma-gray-200/80 text-sm mb-4">
               {t('footer.newsletter.desc')}
             </p>
-            {isSubscribed ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-pharma-blue/20 rounded-xl p-4 text-center"
+            <form className={`flex items-center bg-white/10 rounded-xl overflow-hidden border border-white/20 focus-within:border-pharma-cyan transition-colors`}>
+              <input
+                type="email"
+                placeholder={t('footer.newsletter.placeholder')}
+                className={`w-full px-4 py-3 bg-transparent text-white placeholder-white/50 text-sm outline-none text-start`}
+                required
+              />
+              <button
+                type="submit"
+                className="px-4 py-3 bg-pharma-blue hover:bg-pharma-blue-dark text-white text-sm font-semibold transition-colors h-full"
               >
-                <p className="text-sm text-white">{t('footer.newsletter.success')}</p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubscribe} className="space-y-4">
-                <div className="relative">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={t('footer.newsletter.placeholder')}
-                    className={`w-full px-5 py-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-pharma-blue-light transition-colors ${isRTL ? 'text-right pr-5 pl-12' : 'text-left pl-5 pr-12'}`}
-                    required
-                  />
-                  <Send className={`absolute top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 ${isRTL ? 'left-4' : 'right-4'}`} />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full py-4 bg-pharma-blue hover:bg-pharma-blue-light text-white rounded-xl font-medium transition-colors"
-                >
-                  {t('footer.newsletter.button')}
-                </button>
-              </form>
-            )}
+                {t('footer.newsletter.button')}
+              </button>
+            </form>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className={`flex flex-col md:flex-row items-center justify-between gap-4 ${isRTL ? '' : 'flex-row-reverse'}`}>
-            <p className="text-gray-400 text-sm text-center">
-              {t('footer.copyright')}
-            </p>
-            <div className={`flex items-center gap-6 ${isRTL ? '' : 'flex-row-reverse'}`}>
-              <button className="text-gray-400 hover:text-white text-sm transition-colors">
-                {t('footer.privacy')}
-              </button>
-              <button className="text-gray-400 hover:text-white text-sm transition-colors">
-                {t('footer.terms')}
-              </button>
-            </div>
-          </div>
+        {/* Bottom Bar */}
+        <div className={`pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4`}>
+          <p className="text-sm text-pharma-gray-200/60">
+            {t('footer.copyright').replace('{year}', new Date().getFullYear().toString())}
+          </p>
+          
+          <motion.button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            whileHover={{ y: -3 }}
+            whileTap={{ y: 0 }}
+            className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-pharma-blue hover:text-white transition-colors border border-white/10 hover:border-transparent"
+            aria-label="Scroll to top"
+          >
+            <ArrowUp className="w-5 h-5" />
+          </motion.button>
         </div>
       </div>
-
-      {/* Scroll to Top Button */}
-      <button
-        onClick={scrollToTop}
-        className={`fixed bottom-8 w-12 h-12 bg-pharma-blue hover:bg-pharma-blue-light text-white rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 z-50 ${isRTL ? 'left-8' : 'right-8'}`}
-        aria-label={t('footer.scrollTop')}
-      >
-        <ArrowUp className="w-5 h-5" />
-      </button>
     </footer>
   );
 };

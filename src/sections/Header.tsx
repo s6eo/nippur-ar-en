@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone, Globe } from 'lucide-react';
+import { Menu, X, Phone, Globe, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useScrollToSection } from '../hooks/useScrollToSection';
 
 const Header = () => {
   const { t, i18n } = useTranslation();
+  const scrollToSection = useScrollToSection();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
@@ -14,18 +16,12 @@ const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Update document direction when language changes
-  useEffect(() => {
-    document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
-    document.documentElement.lang = currentLang;
-  }, [currentLang, isRTL]);
 
   const navLinks = [
     { name: t('header.nav.home'), href: '#hero' },
@@ -35,11 +31,8 @@ const Header = () => {
     { name: t('header.nav.contact'), href: '#contact' },
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleNavClick = (href: string) => {
+    scrollToSection(href);
     setIsMobileMenuOpen(false);
   };
 
@@ -53,24 +46,24 @@ const Header = () => {
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-lg'
-            : 'bg-transparent'
+            ? 'py-3 bg-white/80 backdrop-blur-2xl shadow-glass border-b border-white/50'
+            : 'py-6 bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.div
               initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="cursor-pointer"
-              onClick={() => scrollToSection('#hero')}
+              className="cursor-pointer relative z-50"
+              onClick={() => handleNavClick('#hero')}
             >
-              <img src="/logo.png" alt="logo" className='w-fit h-12' />
+              <img src="/logo.png" alt="Nippur Pharma Logo" className="h-10 md:h-12 w-auto object-contain" />
             </motion.div>
 
             {/* Desktop Navigation */}
@@ -81,12 +74,8 @@ const Header = () => {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.1 * index }}
-                  onClick={() => scrollToSection(link.href)}
-                  className={`relative text-sm font-medium transition-colors duration-300 link-underline ${
-                    isScrolled
-                      ? 'text-pharma-gray-dark hover:text-pharma-blue'
-                      : 'text-pharma-gray-dark hover:text-pharma-blue'
-                  }`}
+                  onClick={() => handleNavClick(link.href)}
+                  className="relative text-sm font-semibold tracking-wide transition-colors duration-300 link-underline text-pharma-navy hover:text-pharma-blue"
                 >
                   {link.name}
                 </motion.button>
@@ -98,41 +87,42 @@ const Header = () => {
               initial={{ opacity: 0, x: isRTL ? -20 : 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="hidden lg:flex items-center gap-4"
+              className="hidden lg:flex items-center gap-6"
             >
               {/* Language Switcher */}
               <div className="relative">
                 <button
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-pharma-gray-light transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl hover:bg-pharma-blue/5 border border-transparent hover:border-pharma-blue/10 transition-all duration-300"
                 >
                   <Globe className="w-4 h-4 text-pharma-blue" />
-                  <span className="text-sm font-medium text-pharma-gray-dark">
-                    {currentLang === 'ar' ? 'AR' : 'EN'}
+                  <span className="text-sm font-semibold text-pharma-navy">
+                    {currentLang === 'ar' ? 'العربية' : 'EN'}
                   </span>
+                  <ChevronDown className="w-3 h-3 text-pharma-gray-800 opacity-50" />
                 </button>
 
                 <AnimatePresence>
                   {isLangMenuOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full mt-2 right-0 bg-white rounded-xl shadow-lg border border-gray-100 py-2 min-w-[120px]"
+                      className="absolute top-full mt-3 right-0 bg-white/90 backdrop-blur-xl rounded-2xl shadow-glass border border-white/50 py-2 min-w-[140px] overflow-hidden"
                     >
                       <button
                         onClick={() => toggleLanguage('ar')}
-                        className={`w-full px-4 py-2 text-sm text-right hover:bg-pharma-gray-light transition-colors ${
-                          currentLang === 'ar' ? 'text-pharma-blue font-medium' : 'text-pharma-gray-dark'
+                        className={`w-full px-5 py-3 text-sm text-right transition-colors ${
+                          currentLang === 'ar' ? 'bg-pharma-blue/10 text-pharma-blue font-bold' : 'text-pharma-navy hover:bg-pharma-gray-50'
                         }`}
                       >
                         {t('language.ar')}
                       </button>
                       <button
                         onClick={() => toggleLanguage('en')}
-                        className={`w-full px-4 py-2 text-sm text-right hover:bg-pharma-gray-light transition-colors ${
-                          currentLang === 'en' ? 'text-pharma-blue font-medium' : 'text-pharma-gray-dark'
+                        className={`w-full px-5 py-3 text-sm text-right transition-colors ${
+                          currentLang === 'en' ? 'bg-pharma-blue/10 text-pharma-blue font-bold' : 'text-pharma-navy hover:bg-pharma-gray-50'
                         }`}
                       >
                         {t('language.en')}
@@ -142,102 +132,101 @@ const Header = () => {
                 </AnimatePresence>
               </div>
 
-              <a
-                href={`tel:${t('header.phone')}`}
-                className="flex items-center gap-2 text-pharma-blue hover:text-pharma-blue-dark transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                <span className="text-sm font-medium">{t('header.phone')}</span>
-              </a>
-              <button
-                onClick={() => scrollToSection('#contact')}
-                className="btn-primary flex items-center gap-2"
-              >
-                {t('header.cta')}
-              </button>
+              <div className="flex items-center gap-4">
+                <a
+                  href={`tel:${t('header.phone')}`}
+                  className="w-10 h-10 rounded-full bg-pharma-blue/10 flex items-center justify-center text-pharma-blue hover:bg-pharma-blue hover:text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(29,95,193,0.3)]"
+                  aria-label="Call Us"
+                >
+                  <Phone className="w-4 h-4" />
+                </a>
+                <button
+                  onClick={() => handleNavClick('#contact')}
+                  className="btn-primary flex items-center gap-2 text-sm"
+                >
+                  {t('header.cta')}
+                </button>
+              </div>
             </motion.div>
 
             {/* Mobile Menu Button */}
-            <div className="lg:hidden flex items-center gap-2">
-              {/* Mobile Language Switcher */}
+            <div className="lg:hidden flex items-center gap-3 relative z-50">
               <button
                 onClick={() => toggleLanguage(currentLang === 'ar' ? 'en' : 'ar')}
-                className="p-2 rounded-lg hover:bg-pharma-gray-light transition-colors"
+                className="w-10 h-10 rounded-full bg-pharma-blue/10 flex items-center justify-center hover:bg-pharma-blue/20 transition-colors text-pharma-blue"
               >
-                <Globe className="w-5 h-5 text-pharma-blue" />
+                <Globe className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-lg hover:bg-pharma-gray-light transition-colors"
+                className="w-10 h-10 rounded-full bg-pharma-gray-50 flex items-center justify-center text-pharma-navy hover:bg-pharma-gray-100 transition-colors"
               >
-                {isMobileMenuOpen ? (
-                  <X className="w-6 h-6 text-pharma-blue" />
-                ) : (
-                  <Menu className="w-6 h-6 text-pharma-blue" />
-                )}
+                <AnimatePresence mode="wait">
+                  {isMobileMenuOpen ? (
+                    <motion.div key="close" initial={{ opacity: 0, rotate: -90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: 90 }} transition={{ duration: 0.2 }}>
+                      <X className="w-5 h-5" />
+                    </motion.div>
+                  ) : (
+                    <motion.div key="menu" initial={{ opacity: 0, rotate: 90 }} animate={{ opacity: 1, rotate: 0 }} exit={{ opacity: 0, rotate: -90 }} transition={{ duration: 0.2 }}>
+                      <Menu className="w-5 h-5" />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </button>
             </div>
           </div>
         </div>
       </motion.header>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, x: isRTL ? '100%' : '-100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: isRTL ? '100%' : '-100%' }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed inset-0 z-40 bg-white lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-pharma-navy/40 backdrop-blur-md lg:hidden"
           >
-            <div className="flex flex-col items-center justify-center h-full gap-8">
-              {navLinks.map((link, index) => (
-                <motion.button
-                  key={link.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.1 * index }}
-                  onClick={() => scrollToSection(link.href)}
-                  className="text-2xl font-semibold text-pharma-gray-dark hover:text-pharma-blue transition-colors"
-                >
-                  {link.name}
-                </motion.button>
-              ))}
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.5 }}
-                onClick={() => scrollToSection('#contact')}
-                className="btn-primary mt-4"
-              >
-                {t('header.cta')}
-              </motion.button>
-              
-              {/* Mobile Language Options */}
-              <div className="flex gap-4 mt-4">
-                <button
-                  onClick={() => toggleLanguage('ar')}
-                  className={`px-4 py-2 rounded-lg ${
-                    currentLang === 'ar' 
-                      ? 'bg-pharma-blue text-white' 
-                      : 'bg-pharma-gray-light text-pharma-gray-dark'
-                  }`}
-                >
-                  {t('language.ar')}
-                </button>
-                <button
-                  onClick={() => toggleLanguage('en')}
-                  className={`px-4 py-2 rounded-lg ${
-                    currentLang === 'en' 
-                      ? 'bg-pharma-blue text-white' 
-                      : 'bg-pharma-gray-light text-pharma-gray-dark'
-                  }`}
-                >
-                  {t('language.en')}
-                </button>
+            <motion.div
+              initial={{ x: isRTL ? '100%' : '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: isRTL ? '100%' : '-100%' }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className={`absolute top-0 bottom-0 start-0 w-4/5 max-w-sm bg-white shadow-2xl flex flex-col pt-28 pb-8 px-6 overflow-y-auto`}
+            >
+              <div className="flex flex-col gap-6 flex-grow">
+                {navLinks.map((link, index) => (
+                  <motion.button
+                    key={link.name}
+                    initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 * index }}
+                    onClick={() => handleNavClick(link.href)}
+                    className={`text-xl font-bold text-pharma-navy hover:text-pharma-blue transition-colors text-start`}
+                  >
+                    {link.name}
+                  </motion.button>
+                ))}
               </div>
-            </div>
+              
+              <div className="mt-8 pt-8 border-t border-pharma-gray-100 flex flex-col gap-4">
+                <button
+                  onClick={() => handleNavClick('#contact')}
+                  className="btn-primary w-full justify-center"
+                >
+                  {t('header.cta')}
+                </button>
+                
+                <a
+                  href={`tel:${t('header.phone')}`}
+                  className="btn-secondary w-full justify-center flex items-center gap-2"
+                >
+                  <Phone className="w-4 h-4" />
+                  {t('header.phone')}
+                </a>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

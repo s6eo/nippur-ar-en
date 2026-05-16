@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, type HTMLMotionProps } from 'framer-motion';
 
-interface MagneticButtonProps {
+interface MagneticButtonProps extends Omit<HTMLMotionProps<"button">, "onMouseMove" | "onMouseLeave" | "onClick"> {
   children: React.ReactNode;
   className?: string;
   onClick?: () => void;
@@ -12,7 +12,8 @@ const MagneticButton = ({
   children, 
   className = '', 
   onClick,
-  strength = 0.3 
+  strength = 0.3,
+  ...props
 }: MagneticButtonProps) => {
   const ref = useRef<HTMLButtonElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -44,6 +45,7 @@ const MagneticButton = ({
       transition={{ type: 'spring', stiffness: 350, damping: 15, mass: 0.5 }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
+      {...props}
     >
       {children}
     </motion.button>
